@@ -54,13 +54,19 @@ var Game = {
 
     },
     chooseHero: function() {
-        $(".char_button").on("click.char_button", function() {
+        // listen for clicked character div
+        $(".char_div").on("click.char_div", function() {
             var char_id = $(this).attr("id");
-            switch(char_id) {
-                case "g_char1":
-                    
+
+            // set hero's properties to those of chosen character
+            for (var property in character.hero) {
+                character.hero[property] = character[char_id][property];
             }
+
+            // move clicked char's div to g_hero
+
         });
+        $(".char_div").off("click.char_div"); // kill listener
     },
     chooseEnemy: function() {
 
@@ -69,6 +75,9 @@ var Game = {
 
     },
     playGame: function() {
-
+        this.chooseHero;
     }
 }
+
+// game.initGame();
+game.playGame();
