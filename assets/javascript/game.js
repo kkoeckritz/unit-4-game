@@ -1,9 +1,21 @@
 var character = {
-    Character: function(hero) {
-        this.name = hero.name;
-        this.hp = hero.hp;
-        this.ap = hero.ap;
-        this.cap = hero.cap;
+    // Character: function(hero) {
+    //     this.name = hero.name;
+    //     this.hp = hero.hp;
+    //     this.ap = hero.ap;
+    //     this.cap = hero.cap;
+    // },
+    hero: {
+        name: "HERO",
+        hp: 100,
+        ap: 2,
+        cap: 1
+    },
+    defender: {
+        name: "DEFENDER",
+        hp: 999,
+        ap: 2,
+        cap: 1
     },
     dennis: {
         name: "Dennis Reynolds",
@@ -17,14 +29,20 @@ var character = {
         ap: 10,
         cap: 12
     },
-    vader: {
+    mac: {
         name: "Mac",
         hp: 100,
         ap: 10,
         cap: 12
     },
-    maul: {
+    charlie: {
         name: "Charlie Kelly",
+        hp: 100,
+        ap: 10,
+        cap: 12
+    },
+    frank: {
+        name: "Frank Reynolds",
         hp: 100,
         ap: 10,
         cap: 12
@@ -33,15 +51,16 @@ var character = {
 
 var Game = {
     initGame: function() {
-        /*
-        - grab all game divs w/ jQuery
-        - give each character an on(click, func) where func 
-            - 
-        */
+
     },
     chooseHero: function() {
-        // TODO: jQuery onclick
-        // if each 
+        $(".char_button").on("click.char_button", function() {
+            var char_id = $(this).attr("id");
+            switch(char_id) {
+                case "g_char1":
+                    
+            }
+        });
     },
     chooseEnemy: function() {
 
