@@ -49,35 +49,71 @@ var character = {
     }
 }
 
-var Game = {
+var game = {
     initGame: function() {
 
     },
     chooseHero: function() {
         // listen for clicked character div
-        $(".char_div").on("click.char_div", function() {
+        $(".char_unselected").on("click.hero_select", function() {
             var char_id = $(this).attr("id");
+
+            console.log("hero: " + char_id);
 
             // set hero's properties to those of chosen character
             for (var property in character.hero) {
                 character.hero[property] = character[char_id][property];
             }
+            console.log(character.hero);
 
-            // move clicked char's div to g_hero
+            // relocate char divs to proper places
+            $(this).detach().appendTo("#g_hero");
+            $(this).removeClass("char_unselected");
+            $(".char_unselected").detach().appendTo("#g_enemies");
 
+            // kill listener
+            $(".char_unselected").off("click.hero_select");
         });
-        $(".char_div").off("click.char_div"); // kill listener
     },
-    chooseEnemy: function() {
+    chooseDefender: function() {
+        // listen to remaining unselected divs for click
+        $(".char_unselected").on("click.defender_select", function() {
+            var char_id = $(this).attr("id");
 
+            console.log("defender: " + char_id);
+
+            // set defender's properties to those of chosen character
+            for (var property in character.defender) {
+                character.defender[property] = character[char_id][property];
+            }
+            console.log(character.defender);
+
+            // relocate defender div
+            $(this).detach().appendTo("#g_defender");
+            $(this).removeClass("char_unselected");
+
+            // kill listener
+            $(".char_unselected").off("click.defender_select");
+        });
     },
     doBattle: function() {
 
     },
     playGame: function() {
-        this.chooseHero;
+        this.chooseHero();
+        this.chooseDefender();
     }
 }
 
-// game.initGame();
-game.playGame();
+$().ready(function() {
+    // game.initGame();
+    game.playGame();
+})
+
+/*
+NOTES:
+______
+
+- use .show / .hide
+
+*/
