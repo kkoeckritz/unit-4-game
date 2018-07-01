@@ -57,30 +57,54 @@ var game = {
     initDivs: function(which) {
         // 0: add all character divs
         if (which == 0) {
+
+            // clear target parent div first
+            $("#g_chars").html("");
+
+            // fill with character data
             for (var person in character) {
                 $("<div/>", {
                     id: character[person].id,
                     class: "char_div char_unselected"
                 }).appendTo("#g_chars");
-                $("#" + character[person].id).html(character[person].id);
+                $("#" + character[person].id)
+                .append("<p>" + character[person].id + "</p>")
+                .append("<p>[img]</p>")
+                .append("<p>" + character[person].hp + "</p>");
             }
             console.log("characters initialized.")
         }
         // 1: add hero div
         else if (which == 1) {
+
+            // clear target parent div first
+            $("#g_hero").html("");
+
+            // show hero data            
             $("<div/>", {
                 id: "hero",
                 class: "char_div hero_div"
             }).appendTo("#g_hero");
-            $("#hero").html(chosen.hero.name);
+            $("#hero")
+            .append("<p>" + chosen.hero.name + "</p>")
+            .append("<p>[img]</p>")
+            .append("<p class=\"g_hero_hp\">" + chosen.hero.hp + "</p>");
         }
         // 2: add defender div
         else if (which == 2) {
+
+            // clear target parent div first
+            $("#g_defender").html("");
+
+            // show defender data               
             $("<div/>", {
                 id: "defender",
                 class: "char_div defender_div"
             }).appendTo("#g_defender");
-            $("#defender").html(chosen.defender.name);
+            $("#defender")
+            .append("<p>" + chosen.defender.name + "</p>")
+            .append("<p>[hero]</p>")
+            .append("<p class=\"g_defender_hp\">" + chosen.defender.hp + "</p>");
         }
 
     },
@@ -96,8 +120,7 @@ var game = {
                 chosen.hero[property] = character[char_id][property];
             }
 
-            // relocate char divs to proper places
-            // $(this).detach().appendTo("#g_hero");
+            // relocate chosen char (as hero)
             $(this).detach().hide(1000);
             game.initDivs(1);
             $(this).removeClass("char_unselected");
@@ -119,7 +142,7 @@ var game = {
                 chosen.defender[property] = character[char_id][property];
             }
 
-            // relocate defender div
+            // relocate chosen char (as defender)
             $(this).detach().hide(1000);
             game.initDivs(2);
             $(this).removeClass("char_unselected");
@@ -130,15 +153,44 @@ var game = {
     },
     doBattle: function() {
         console.log("FIGHT: " + chosen.hero.name + " vs " + chosen.defender.name);
+        var won = false;
+
+            // when user clicks Attack button
+            $("#g_attack").on("click.attack", function() {
+
+                // if hero is dead, kill listener and quit
+                if (chosen.hero.hp < 0) {
+                    $("#g_attack").off("click.attack");
+                }
+
+
+
+                // adjust health/attack points, redisplay them
+                chosen.defender.hp -= chosen.hero.ap;
+                chosen.hero.hp -= chosen.defender.cap;
+                game.initDivs(1);
+                game.initDivs(2);
+
+                console.log("hero hp: " + chosen.hero.hp);
+                console.log("def hp: " + chosen.defender.hp);
+
+
+            })
+            console.log(chosen.hero.id + " is triumphant. You win!");
+
+            // kill listener
+            // $("#g_attack").off("click.attack");
+            // console.log(chosen.hero.id + " died. Try again.");
+            // break;
     },
     playGame: function() {
         this.chooseHero();
-        $(document).one('click.hero_select', function()  {
+        $(document).one("click.hero_select", function() {
             game.chooseDefender();
+            $(document).one("click.defender_select", function() {
+                game.doBattle();
+            });
         });
-
-        // .then(this.doBattle)
-        // .catch()
     }
 }
 
