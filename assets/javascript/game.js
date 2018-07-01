@@ -1,10 +1,4 @@
-var character = {
-    // Character: function(hero) {
-    //     this.name = hero.name;
-    //     this.hp = hero.hp;
-    //     this.ap = hero.ap;
-    //     this.cap = hero.cap;
-    // },
+var chosen = {
     hero: {
         name: "HERO",
         hp: 100,
@@ -16,7 +10,10 @@ var character = {
         hp: 999,
         ap: 2,
         cap: 1
-    },
+    }
+}
+
+var character = {
     dennis: {
         name: "Dennis Reynolds",
         hp: 100,
@@ -51,20 +48,23 @@ var character = {
 
 var game = {
     initGame: function() {
+        // give character divs values
+        for (var i = 0; i < character.length; i++) {
 
+        }
     },
     chooseHero: function() {
         // listen for clicked character div
-        $(".char_unselected").on("click.hero_select", function() {
+        $(".char_unselected").one("click.hero_select", function() {
             var char_id = $(this).attr("id");
 
             console.log("hero: " + char_id);
 
             // set hero's properties to those of chosen character
-            for (var property in character.hero) {
-                character.hero[property] = character[char_id][property];
+            for (var property in chosen.hero) {
+                chosen.hero[property] = character[char_id][property];
             }
-            console.log(character.hero);
+            console.log(chosen.hero);
 
             // relocate char divs to proper places
             $(this).detach().appendTo("#g_hero");
@@ -77,16 +77,16 @@ var game = {
     },
     chooseDefender: function() {
         // listen to remaining unselected divs for click
-        $(".char_unselected").on("click.defender_select", function() {
+        $(".char_unselected").one("click.defender_select", function() {
             var char_id = $(this).attr("id");
 
             console.log("defender: " + char_id);
 
             // set defender's properties to those of chosen character
-            for (var property in character.defender) {
-                character.defender[property] = character[char_id][property];
+            for (var property in chosen.defender) {
+                chosen.defender[property] = character[char_id][property];
             }
-            console.log(character.defender);
+            console.log(chosen.defender);
 
             // relocate defender div
             $(this).detach().appendTo("#g_defender");
@@ -97,23 +97,33 @@ var game = {
         });
     },
     doBattle: function() {
-
+        console.log("FIGHT: " + chosen.hero.name + " vs " + chosen.defender.name);
     },
     playGame: function() {
         this.chooseHero();
-        this.chooseDefender();
+        $(document).one('click.hero_select', function()  {
+            game.chooseDefender();
+        });
+
+        // .then(this.doBattle)
+        // .catch()
     }
 }
 
 $().ready(function() {
-    // game.initGame();
-    game.playGame();
+    game.initGame();
+    setTimeout(function() {
+        game.playGame();
+    }, 100);
 })
+
+
+
+
 
 /*
 NOTES:
-______
-
+------
 - use .show / .hide
 
 */
