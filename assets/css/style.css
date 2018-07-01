@@ -132,6 +132,15 @@ button {
 
 
 /* for RPG page */
+@font-face {
+    font-family: textile;
+    src: url("../fonts/Textile.ttf")
+}
+
+#g_title {
+    font-family: textile;
+}
+
 .char_div {
     display: inline-block;
 

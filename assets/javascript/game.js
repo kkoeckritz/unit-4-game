@@ -2,7 +2,7 @@ var chosen = {
     hero: {
         id: "hero",
         name: "HERO",
-        hp: 100,
+        hp: 888,
         ap: 2,
         cap: 1,
         img: ""
@@ -22,40 +22,40 @@ var character = {
         id: "dennis",
         name: "Dennis Reynolds",
         hp: 100,
-        ap: 10,
-        cap: 12,
+        ap: 8,
+        cap: 8,
         img: "https://vignette.wikia.nocookie.net/itsalwayssunny/images/d/d6/Dennis_%2811%29.jpg/revision/latest?cb=20110812033346"
     },
     dee: {
         id: "dee",
         name: "Dee Reynolds",
-        hp: 100,
+        hp: 80,
         ap: 10,
-        cap: 12,
+        cap: 10,
         img: "https://i.pinimg.com/originals/b5/5c/32/b55c3287164a4460f8f4f47485727079.jpg"
     },
     mac: {
         id: "mac",
         name: "Mac",
-        hp: 100,
-        ap: 10,
-        cap: 12,
+        hp: 130,
+        ap: 9,
+        cap: 9,
         img: "http://media.lehighvalleylive.com/tv_impact/photo/itsalwayssunny-macjpg-834a5d489f4922f3_large.jpg"
     },
     charlie: {
         id: "charlie",
         name: "Charlie Kelly",
         hp: 100,
-        ap: 10,
-        cap: 12,
+        ap: 6,
+        cap: 6,
         img: "http://images2.fanpop.com/images/photos/2900000/iasip-its-always-sunny-in-philadelphia-2900439-375-500.jpg"
     },
     frank: {
         id: "frank",
         name: "Frank Reynolds",
-        hp: 100,
-        ap: 10,
-        cap: 12,
+        hp: 150,
+        ap: 7,
+        cap: 7,
         img: "https://vignette.wikia.nocookie.net/itsalwayssunny/images/7/7b/Frank_%282%29.jpg/revision/latest/scale-to-width-down/180?cb=20110812033432"
     }
 }
@@ -73,7 +73,7 @@ var game = {
                 }).appendTo("#g_chars");
                 $("#" + character[person].id)
                 .append("<p>" + character[person].id + "</p>")
-                .append("<img src=\"" + character[person].img + "\" width=\"150\" height=\"185\"/>")
+                .append("<img src=\"" + character[person].img + "\" width=\"130\" height=\"160\"/>")
                 .append("<p>" + character[person].hp + "</p>");
             }
             console.log("characters initialized.")
@@ -91,7 +91,7 @@ var game = {
             }).appendTo("#g_hero");
             $("#hero")
             .append("<p>" + chosen.hero.name + "</p>")
-            .append("<img src=\"" + chosen.hero.img + "\" width=\"150\" height=\"185\"/>")
+            .append("<img src=\"" + chosen.hero.img + "\" width=\"130\" height=\"160\"/>")
             .append("<p class=\"g_hero_hp\">" + chosen.hero.hp + "</p>");
         }
         // 2: add defender div
@@ -107,7 +107,7 @@ var game = {
             }).appendTo("#g_defender");
             $("#defender")
             .append("<p>" + chosen.defender.name + "</p>")
-            .append("<img src=\"" + chosen.defender.img + "\" width=\"150\" height=\"185\"/>")
+            .append("<img src=\"" + chosen.defender.img + "\" width=\"130\" height=\"160\"/>")
             .append("<p class=\"g_defender_hp\">" + chosen.defender.hp + "</p>");
         }
 
@@ -163,19 +163,39 @@ var game = {
         $("#g_attack").on("click.attack", function() {
 
             // if hero is dead, kill listener and reload page
-            if (chosen.hero.hp < 0) {
+            if (chosen.hero.hp < 1) {
                 $("#g_attack").off("click.attack");
-                $(".game").html("<h2>" + chosen.hero.id + " DIED. YOU LOSE. </h2>");
+                $(".game").html("<h2>" + chosen.hero.name + " is dead. You lose. </h2>");
                 setTimeout(function() {
                     location.reload(true);
                 }, 2000)
             }
 
+            // // if not changed from "done", user must have won!
+            // else if (chosen.defender.name == "done") {
+            //     $(".game").html("<h2>" + chosen.hero.name + " has conquered all. You win! </h2>");
+            //     setTimeout(function() {
+            //         location.reload(true);
+            //     }, 2000)
+            // }
+
             // if defender is dead, let user choose another from enemies
-            else if (chosen.defender.hp < 0) {
+            else if (chosen.defender.hp < 1) {
+                $("#defender").html("");
+
+                // if enemies left, this should be undone by chooseDefender
+                chosen.defender.name = "done";
                 game.chooseDefender();
+
+                // if not changed from "done", user must have won!
                 $(document).one("click.defender_select", function() {
-                    game.doBattle();
+                    if (chosen.defender.name == "done") {
+                        $(".game").html("<h2>" + chosen.hero.name + " has conquered all. You win! </h2>");
+                        setTimeout(function() {
+                            location.reload(true);
+                        }, 2000)
+                    }
+                    $(document).off("click.defender_select");
                 });
             }
 
@@ -183,7 +203,7 @@ var game = {
                 // adjust health/attack points, redisplay them
                 chosen.defender.hp -= chosen.hero.ap;
                 chosen.hero.hp -= chosen.defender.cap;
-                // chosen.hero.ap *= 2;
+                 chosen.hero.ap += chosen.hero.cap;
                 game.initDivs(1);
                 game.initDivs(2);
 
@@ -191,18 +211,33 @@ var game = {
                 console.log("def hp: " + chosen.defender.hp);
 
                 // check again for hero death
-                if (chosen.hero.hp < 0) {
+                if (chosen.hero.hp < 1) {
                     $("#g_attack").off("click.attack");
-                    location.reload(true);
+                    $(".game").html("<h2>" + chosen.hero.name + " is dead. You lose. </h2>");
+                    setTimeout(function() {
+                        location.reload(true);
+                    }, 2000)
+                }
+                
+                // check again for defender death
+                else if (chosen.defender.hp < 1) {
+                    $("#defender").html("");
+                    game.chooseDefender();
+
+                    // if not changed from "done", user must have won!
+                    $(document).one("click.defender_select", function() {
+                        if (chosen.defender.name == "done") {
+                            $(".game").html("<h2>" + chosen.hero.name + " has conquered all. You win! </h2>");
+                            setTimeout(function() {
+                                location.reload(true);
+                            }, 2000)
+                        }
+                        $(document).off("click.defender_select");
+                    });
                 }
             }
         });
         // console.log(chosen.hero.id + " is triumphant. You win!");
-
-        // kill listener
-        // $("#g_attack").off("click.attack");
-        // console.log(chosen.hero.id + " died. Try again.");
-        // break;
     },
     playGame: function() {
         this.chooseHero();
@@ -221,14 +256,3 @@ $().ready(function() {
         game.playGame();
     }, 100);
 })
-
-
-
-
-
-/*
-NOTES:
-------
-- use .show / .hide
-
-*/
