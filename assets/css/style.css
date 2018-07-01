@@ -133,8 +133,16 @@ button {
 
 /* for RPG page */
 .char_div {
+    display: inline-block;
+
+    width: 150;
+    height: 200;
     color: white;
     border: solid 1px whitesmoke;
+}
+
+.char_div>p {
+    text-align: center;
 }
 
 .char_unselected {
