@@ -29,7 +29,7 @@ var character = {
     dee: {
         id: "dee",
         name: "Dee Reynolds",
-        hp: 80,
+        hp: 90,
         ap: 10,
         cap: 10,
         img: "https://i.pinimg.com/originals/b5/5c/32/b55c3287164a4460f8f4f47485727079.jpg"
@@ -37,7 +37,7 @@ var character = {
     mac: {
         id: "mac",
         name: "Mac",
-        hp: 130,
+        hp: 120,
         ap: 9,
         cap: 9,
         img: "http://media.lehighvalleylive.com/tv_impact/photo/itsalwayssunny-macjpg-834a5d489f4922f3_large.jpg"
@@ -53,7 +53,7 @@ var character = {
     frank: {
         id: "frank",
         name: "Frank Reynolds",
-        hp: 150,
+        hp: 140,
         ap: 7,
         cap: 7,
         img: "https://vignette.wikia.nocookie.net/itsalwayssunny/images/7/7b/Frank_%282%29.jpg/revision/latest/scale-to-width-down/180?cb=20110812033432"
@@ -73,7 +73,7 @@ var game = {
                 }).appendTo("#g_chars");
                 $("#" + character[person].id)
                 .append("<p>" + character[person].id + "</p>")
-                .append("<img src=\"" + character[person].img + "\" width=\"130\" height=\"160\"/>")
+                .append("<img src=\"" + character[person].img + "\" width=\"125\" height=\"140\"/>")
                 .append("<p>" + character[person].hp + "</p>");
             }
             console.log("characters initialized.")
@@ -91,7 +91,7 @@ var game = {
             }).appendTo("#g_hero");
             $("#hero")
             .append("<p>" + chosen.hero.name + "</p>")
-            .append("<img src=\"" + chosen.hero.img + "\" width=\"130\" height=\"160\"/>")
+            .append("<img src=\"" + chosen.hero.img + "\" width=\"125\" height=\"140\"/>")
             .append("<p class=\"g_hero_hp\">" + chosen.hero.hp + "</p>");
         }
         // 2: add defender div
@@ -107,7 +107,7 @@ var game = {
             }).appendTo("#g_defender");
             $("#defender")
             .append("<p>" + chosen.defender.name + "</p>")
-            .append("<img src=\"" + chosen.defender.img + "\" width=\"130\" height=\"160\"/>")
+            .append("<img src=\"" + chosen.defender.img + "\" width=\"125\" height=\"140\"/>")
             .append("<p class=\"g_defender_hp\">" + chosen.defender.hp + "</p>");
         }
 

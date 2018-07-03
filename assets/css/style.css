@@ -36,7 +36,8 @@ button {
     color: white;
     font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
     font-size: 13.5pt;
-    background-color: #4aaaa5;
+    background-color: black;
+    /* background-color: #4aaaa5; re-themed for RPG */
     border: none;
 }
 
@@ -138,14 +139,19 @@ button {
 }
 
 #g_title {
+    padding: 10px;
+    width: fit-content;
+
+    color: white;
+    background-color: black;
     font-family: textile;
 }
 
 .char_div {
     display: inline-block;
 
-    width: 150;
-    height: 200;
+    /* width: 130px;
+    height: 200px; */
     color: white;
     border: solid 1px whitesmoke;
 }
@@ -155,15 +161,15 @@ button {
 }
 
 .char_unselected {
-    background-color: green;
+    background-color: darkgreen;
 }
 
 .hero_div {
-    background-color: blue;
+    background-color: darkblue;
 }
 
 .defender_div {
-    background-color: red;
+    background-color: darkred;
 }
 
 
